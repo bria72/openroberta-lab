@@ -1128,6 +1128,9 @@
 .typcn-mbot:before {
   content: "\ea6c";
 }
+.typcn-dinobot:before {
+  content: "\e92c";
+}
 .typcn-media-cancel:before {
   content: "\ea6d";
 }

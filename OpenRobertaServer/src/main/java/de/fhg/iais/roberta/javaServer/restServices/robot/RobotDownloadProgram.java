@@ -76,6 +76,7 @@ public class RobotDownloadProgram {
                 case "mega":
                 case "nano":
                 case "mbot":
+                case "dinobot":
                 case "unowifirev2":
                 case "bob3":
                     fileName = programName + ".hex";
