@@ -56,6 +56,13 @@ public class ArduinoCompilerWorker implements IWorker {
                 scriptName = compilerResourcesDir + "arduino-resources/build_project_mbot.sh";
                 arduinoArch = "avr";
                 break;
+            case "dinobot":
+                boardVariant = "standard";
+                mmcu = "atmega328p";
+                arduinoVariant = "ARDUINO_AVR_UNO";
+                scriptName = compilerResourcesDir + "arduino-resources/build_project_dinobot.sh";
+                arduinoArch = "avr";
+                break;
             case "botnroll":
                 boardVariant = "standard";
                 mmcu = "atmega328p";

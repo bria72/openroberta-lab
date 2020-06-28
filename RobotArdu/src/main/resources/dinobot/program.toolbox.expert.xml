@@ -1,6 +1,13 @@
 <toolbox_set id="toolbox" style="display: none">
     <category name="TOOLBOX_ACTION" svg="true">
         <category name="TOOLBOX_DRIVE" svg="true">
+            <block type="robActions_serial_print">
+                <value name="OUT">
+                    <block type="text">
+                        <field name="TEXT">Hallo</field>
+                    </block>
+                </value>
+            </block>
             <block type="robActions_motorDiff_on_for">
                 <value name="POWER">
                     <block type="math_number">
