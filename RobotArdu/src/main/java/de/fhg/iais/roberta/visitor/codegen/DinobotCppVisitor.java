@@ -88,6 +88,24 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     public DinobotCppVisitor(List<ArrayList<Phrase<Void>>> phrases, ConfigurationAst brickConfiguration, ClassToInstanceMap<IProjectBean> beans) {
         super(phrases, brickConfiguration, beans);
     }
+    
+    
+    /**
+    * My (Yash) edit 
+    * Method to move robot ahead
+    */
+    public void moveForward() { 
+        dinoBot.forward(); // dinobot is the robot object name, and forward() is the function defined in TommyTurtle.ino to move the robot ahead
+    }
+    
+    /**
+    * My (Yash) edit 
+    * Method to stop robot
+    */
+    public void stop() {
+        dinoBot.stop();
+    }
+    
 
     @Override
     public Void visitEmptyExpr(EmptyExpr<Void> emptyExpr) {
