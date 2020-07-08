@@ -326,7 +326,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
             // I tried looking at other files for this info but couldnt find it (the driveAction class/type)
             this.sb.append(driveAction.getParam.getSpeed());
             this.sb.append(', ');
-            this.sb.append(driveAction.getParam.getAngle);
+            this.sb.append(driveAction.getParam.getAngle());
         }
             
         this.sb.append(");");
