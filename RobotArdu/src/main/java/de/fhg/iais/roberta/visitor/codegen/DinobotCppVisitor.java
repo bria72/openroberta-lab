@@ -316,14 +316,13 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     public Void visitDriveAction(DriveAction<Void> driveAction) {
         final MotorDuration<Void> duration = driveAction.getParam().getDuration();
         
-        if (driveAction.getDirection() == DriveDirection.FOREWARD) { // where do we get these methods from, i.e which file has the info that for eg driveAction has methods getDirection,etc as I am unsure if the method for getAngle is correct
+        if (driveAction.getDirection() == DriveDirection.FOREWARD) {
             this.sb.append("_dBot.Forward("); 
         } else {
             this.sb.append("_dBot.Backward("); 
         }
         
-        if (driveAction.getParam.getSpeed() != null) { // Im a bit confused here as to how to get the speed and angle values hence I just copied the code and assumed that getParam has a getAngle method
-            // I tried looking at other files for this info but couldnt find it (the driveAction class/type)
+        if (driveAction.getParam.getSpeed() != null) { 
             this.sb.append(driveAction.getParam.getSpeed());
             // should i add th angle param and set it to 0?
         }
