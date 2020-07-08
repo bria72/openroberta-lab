@@ -322,11 +322,9 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
             this.sb.append("_dBot.Backward("); 
         }
         
-        if (driveAction.getParam.getSpeed() != null && driveAction.getParam.getAngle() !=null) { // Im a bit confused here as to how to get the speed and angle values hence I just copied the code and assumed that getParam has a getAngle method
+        if (driveAction.getParam.getSpeed() != null) { // Im a bit confused here as to how to get the speed and angle values hence I just copied the code and assumed that getParam has a getAngle method
             // I tried looking at other files for this info but couldnt find it (the driveAction class/type)
             this.sb.append(driveAction.getParam.getSpeed());
-            this.sb.append(', ');
-            this.sb.append(driveAction.getParam.getAngle());
         }
             
         this.sb.append(");");
