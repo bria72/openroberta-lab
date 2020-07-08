@@ -308,10 +308,14 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         return null;
     }
 
+    
+    /**
+    *Edit
+    */
     @Override
     public Void visitDriveAction(DriveAction<Void> driveAction) {
         final MotorDuration<Void> duration = driveAction.getParam().getDuration();
-        this.sb.append("_meDrive.drive(");
+        this.sb.append("_dBot.Forward(");
         driveAction.getParam().getSpeed().accept(this);
         this.sb.append(", ");
         this.sb.append(driveAction.getDirection() == DriveDirection.FOREWARD ? 1 : 0);
@@ -352,12 +356,16 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         this.sb.append(");");
         return null;
     }
+    
+    /**
+    * Edit
+    */
 
     @Override
     public Void visitMotorDriveStopAction(MotorDriveStopAction<Void> stopAction) {
         for ( final UsedActor actor : this.getBean(UsedHardwareBean.class).getUsedActors() ) {
             if ( actor.getType().equals(SC.DIFFERENTIAL_DRIVE) ) {
-                this.sb.append("_meDrive.stop();");
+                this.sb.append("_dBot.Stop();");
                 break;
             }
         }
