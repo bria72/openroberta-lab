@@ -69,13 +69,13 @@ import de.fhg.iais.roberta.syntax.sensors.arduino.mbot.Joystick;
 import de.fhg.iais.roberta.typecheck.BlocklyType;
 import de.fhg.iais.roberta.util.dbc.DbcException;
 import de.fhg.iais.roberta.visitor.IVisitor;
-import de.fhg.iais.roberta.visitor.hardware.IMbotVisitor;
+import de.fhg.iais.roberta.visitor.hardware.IDinobotVisitor;
 
 /**
  * This class is implementing {@link IVisitor}. All methods are implemented and they append a hussentation of a phrase to a StringBuilder. <b>This
  * representation is correct C code for Arduino.</b> <br>
  */
-public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor implements IMbotVisitor<Void> {
+public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor implements IDinobotVisitor<Void> {
 
     private final HashMap<String, Integer> imageList = new HashMap<String, Integer>();
 
@@ -88,10 +88,6 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     public DinobotCppVisitor(List<ArrayList<Phrase<Void>>> phrases, ConfigurationAst brickConfiguration, ClassToInstanceMap<IProjectBean> beans) {
         super(phrases, brickConfiguration, beans);
     }
-    
-    
-  
-    
 
     @Override
     public Void visitEmptyExpr(EmptyExpr<Void> emptyExpr) {
@@ -308,24 +304,21 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         return null;
     }
 
-    
-    /**
-    *Edit
-    */
     @Override
     public Void visitDriveAction(DriveAction<Void> driveAction) {
         final MotorDuration<Void> duration = driveAction.getParam().getDuration();
         
-        if (driveAction.getDirection() == DriveDirection.FOREWARD) {
+        if (driveAction.getDirection() == DriveDirection.FOREWARD) { // where do we get these methods from, i.e which file has the info that for eg driveAction has methods getDirection,etc as I am unsure if the method for getAngle is correct
             this.sb.append("_dBot.Forward("); 
         } else {
             this.sb.append("_dBot.Backward("); 
         }
-        
-        if (driveAction.getParam.getSpeed() != null) { 
-            this.sb.append(driveAction.getParam.getSpeed());
-            // should i add th angle param and set it to 0?
-        }
+        driveAction.getParam().getSpeed().accept(this);
+        // if (driveAction.getParam.getSpeed() != null) { // Im a bit confused here as to how to get the speed and angle values hence I just copied the code and assumed that getParam has a getAngle method
+        //     // I tried looking at other files for this info but couldnt find it (the driveAction class/type)
+        //     this.sb.append(driveAction.getParam.getSpeed());
+        //     // should i add th angle param and set it to 0?
+        // }
             
         this.sb.append(");");
           /**
@@ -342,7 +335,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     @Override
     public Void visitCurveAction(CurveAction<Void> curveAction) {
         final MotorDuration<Void> duration = curveAction.getParamLeft().getDuration();
-        this.sb.append("_meDrive.steer(");
+        this.sb.append("_dbot.steer(");
         curveAction.getParamLeft().getSpeed().accept(this);
         this.sb.append(", ");
         curveAction.getParamRight().getSpeed().accept(this);
@@ -358,7 +351,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     @Override
     public Void visitTurnAction(TurnAction<Void> turnAction) {
         final MotorDuration<Void> duration = turnAction.getParam().getDuration();
-        this.sb.append("_meDrive.turn(");
+        this.sb.append("_dbot.turn(");
         turnAction.getParam().getSpeed().accept(this);
         this.sb.append(", ").append(turnAction.getDirection() == TurnDirection.LEFT ? 1 : 0);
         if ( duration != null ) {
@@ -368,10 +361,6 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         this.sb.append(");");
         return null;
     }
-    
-    /**
-    * Edit
-    */
 
     @Override
     public Void visitMotorDriveStopAction(MotorDriveStopAction<Void> stopAction) {
@@ -574,7 +563,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         nlIndent();
         this.sb.append("#include <MeMCore.h>");
         nlIndent();
-        this.sb.append("#include <MeDrive.h>");
+        this.sb.append("#include <DinoDrive.h>");
         nlIndent();
         this.sb.append("#include <NEPODefs.h>");
         nlIndent();
@@ -663,17 +652,17 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
                     break;
                 case SC.GEARED_MOTOR:
                     nlIndent();
-                    this.sb.append("MeDCMotor _meDCmotor" + usedActor.getPort() + "(M" + usedActor.getPort() + ");");
+                    this.sb.append("MeDCMotor _medcmotor" + usedActor.getPort() + "(M" + usedActor.getPort() + ");");
                     break;
                 case SC.DIFFERENTIAL_DRIVE:
                     nlIndent();
                     this.sb
                         .append(
-                            "MeDrive _meDrive(M"
-                                + this.configuration.getFirstMotorPort(SC.LEFT)
-                                + ", M"
-                                + this.configuration.getFirstMotorPort(SC.RIGHT)
-                                + ");");
+                            "MeDrive _dBot();");
+                                // + this.configuration.getFirstMotorPort(SC.LEFT)
+                                // + ", M"
+                                // + this.configuration.getFirstMotorPort(SC.RIGHT)
+                                // + ");");
                     break;
                 case SC.LED_MATRIX:
                     nlIndent();
