@@ -379,31 +379,11 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         return null;
     }
 
-    @Override
-    public Void visitKeysSensor(KeysSensor<Void> keysSensor) {
-        this.sb.append("(analogRead(PORT_7) < 512)");
-        return null;
-    }
 
-    @Override
-    public Void visitColorSensor(ColorSensor<Void> colorSensor) {
-        return null;
-    }
 
     @Override
     public Void visitSoundSensor(SoundSensor<Void> soundSensor) {
         this.sb.append("_meSoundSensor" + soundSensor.getPort() + ".strength()");
-        return null;
-    }
-
-    @Override
-    public Void visitEncoderSensor(EncoderSensor<Void> encoderSensor) {
-        return null;
-    }
-
-    @Override
-    public Void visitCompassSensor(CompassSensor<Void> compassSensor) {
-
         return null;
     }
 
@@ -426,12 +406,6 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     }
 
     @Override
-    public Void visitTemperatureSensor(TemperatureSensor<Void> temperatureSensor) {
-        this.sb.append("_meTemp" + temperatureSensor.getPort() + ".getTemperature()");
-        return null;
-    }
-
-    @Override
     public Void visitTouchSensor(TouchSensor<Void> touchSensor) {
         this.sb.append("_meTouch" + touchSensor.getPort() + ".touched()");
         return null;
@@ -442,19 +416,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         this.sb.append("_meUltraSensor" + ultrasonicSensor.getPort() + ".distanceCm()");
         return null;
     }
-
-    @Override
-    public Void visitMotionSensor(MotionSensor<Void> motionSensor) {
-        this.sb.append("_mePir" + motionSensor.getPort() + ".isHumanDetected()");
-        return null;
-    }
-
-    @Override
-    public Void visitFlameSensor(FlameSensor<Void> _meFlameSensor) {
-        this.sb.append("_meFlameSensor" + _meFlameSensor.getPort() + ".readAnalog()");
-        return null;
-    }
-
+ 
     @Override
     public Void visitJoystick(Joystick<Void> joystick) {
         this.sb.append("_meJoystick" + joystick.getPort() + ".read" + joystick.getAxis() + "()");
