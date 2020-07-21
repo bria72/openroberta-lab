@@ -421,7 +421,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
 
     @Override
     public Void visitInfraredSensor(InfraredSensor<Void> infraredSensor) {
-        this.sb.append("!__meLineFollower" + infraredSensor.getPort() + ".readSensor" + infraredSensor.getSlot() + "()");
+        this.sb.append("!_dBotLineFollower" + infraredSensor.getPort() + ".readSensor" + infraredSensor.getSlot() + "()");
         return null;
     }
 
