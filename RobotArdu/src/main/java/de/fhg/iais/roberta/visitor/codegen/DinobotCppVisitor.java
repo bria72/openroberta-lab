@@ -351,9 +351,14 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     @Override
     public Void visitTurnAction(TurnAction<Void> turnAction) {
         final MotorDuration<Void> duration = turnAction.getParam().getDuration();
-        this.sb.append("_dbot.turn(");
+
+        if(turnAction.getDirection() == TurnDirection.LEFT ){
+        this.sb.append("_dbot.turnLeft(");
+        } else{
+            this.sb.append("_dbot.turnRight(");
+        }
+
         turnAction.getParam().getSpeed().accept(this);
-        this.sb.append(", ").append(turnAction.getDirection() == TurnDirection.LEFT ? 1 : 0);
         if ( duration != null ) {
             this.sb.append(", ");
             duration.getValue().accept(this);
