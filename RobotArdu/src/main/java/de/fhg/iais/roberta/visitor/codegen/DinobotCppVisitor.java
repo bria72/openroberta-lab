@@ -50,21 +50,11 @@ import de.fhg.iais.roberta.syntax.lang.expr.EmptyExpr;
 import de.fhg.iais.roberta.syntax.lang.expr.Expr;
 import de.fhg.iais.roberta.syntax.lang.expr.RgbColor;
 import de.fhg.iais.roberta.syntax.lang.expr.Var;
-import de.fhg.iais.roberta.syntax.sensor.generic.AccelerometerSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.ColorSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.CompassSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.EncoderSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.GyroSensor;
 import de.fhg.iais.roberta.syntax.sensor.generic.InfraredSensor;
 import de.fhg.iais.roberta.syntax.sensor.generic.KeysSensor;
 import de.fhg.iais.roberta.syntax.sensor.generic.LightSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.MotionSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.SoundSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.TemperatureSensor;
 import de.fhg.iais.roberta.syntax.sensor.generic.TouchSensor;
 import de.fhg.iais.roberta.syntax.sensor.generic.UltrasonicSensor;
-import de.fhg.iais.roberta.syntax.sensor.generic.VoltageSensor;
-import de.fhg.iais.roberta.syntax.sensors.arduino.mbot.FlameSensor;
 import de.fhg.iais.roberta.syntax.sensors.arduino.mbot.Joystick;
 import de.fhg.iais.roberta.typecheck.BlocklyType;
 import de.fhg.iais.roberta.util.dbc.DbcException;
@@ -288,15 +278,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         return null;
     }
 
-    @Override
-    public Void visitMotorSetPowerAction(MotorSetPowerAction<Void> motorSetPowerAction) {
-        return null;
-    }
-
-    @Override
-    public Void visitMotorGetPowerAction(MotorGetPowerAction<Void> motorGetPowerAction) {
-        return null;
-    }
+  
 
     @Override
     public Void visitMotorStopAction(MotorStopAction<Void> motorStopAction) {
@@ -353,9 +335,9 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         final MotorDuration<Void> duration = turnAction.getParam().getDuration();
 
         if(turnAction.getDirection() == TurnDirection.LEFT ){
-        this.sb.append("_dbot.turnLeft(");
+        this.sb.append("_dbot.Turn_Left(");
         } else{
-            this.sb.append("_dbot.turnRight(");
+            this.sb.append("_dbot.Turn_Right(");
         }
 
         turnAction.getParam().getSpeed().accept(this);
@@ -383,26 +365,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         this.sb.append("_meLight" + lightSensor.getPort() + ".read() * ANALOG2PERCENT");
         return null;
     }
-
-
-
-    @Override
-    public Void visitSoundSensor(SoundSensor<Void> soundSensor) {
-        this.sb.append("_meSoundSensor" + soundSensor.getPort() + ".strength()");
-        return null;
-    }
-
-    @Override
-    public Void visitGyroSensor(GyroSensor<Void> gyroSensor) {
-        this.sb.append("myGyro" + gyroSensor.getPort() + ".getGyro" + gyroSensor.getMode() + "()");
-        return null;
-    }
-
-    @Override
-    public Void visitAccelerometer(AccelerometerSensor<Void> accelerometer) {
-        this.sb.append("myGyro" + accelerometer.getPort() + ".getAngle" + accelerometer.getMode().toString() + "()");
-        return null;
-    }
+    
 
     @Override
     public Void visitInfraredSensor(InfraredSensor<Void> infraredSensor) {
@@ -459,7 +422,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         incrIndentation();
         nlIndent();
         this.sb.append("Serial.begin(9600); ");
-        //      TODO test the following lines when these sensors are available
+        //      Todo test the following lines when these sensors are available
         //        for ( final UsedSensor usedSensor : this.usedSensors ) {
         //            switch ( usedSensor.getType() ) {
         //                case SC.GYRO:
@@ -473,7 +436,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         //        }
         nlIndent();
         generateUsedVars();
-        //      TODO test the following lines when these sensors are available
+        //      Todo test the following lines when these sensors are available
         //        this.sb.append("\n}");
         //        decrIndentation();
         //        for ( final UsedSensor usedSensor : this.usedSensors ) {
@@ -549,19 +512,9 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
                     nlIndent();
                     this.sb.append("pinMode(7, INPUT);");
                     break;
-                case SC.COLOR:
-                    break;
                 case SC.ULTRASONIC:
                     nlIndent();
                     this.sb.append("MeUltrasonicSensor _meUltraSensor" + usedSensor.getPort() + "(PORT_" + usedSensor.getPort() + ");");
-                    break;
-                case SC.MOTION:
-                    nlIndent();
-                    this.sb.append("MePIRMotionSensor _mePir" + usedSensor.getPort() + "(" + usedSensor.getPort() + ");");
-                    break;
-                case SC.TEMPERATURE:
-                    nlIndent();
-                    this.sb.append("MeHumiture _meTemp" + usedSensor.getPort() + "(" + usedSensor.getPort() + ");");
                     break;
                 case SC.TOUCH:
                     nlIndent();
@@ -579,28 +532,9 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
                     }
                     usedInfraredPort.add(port);
                     break;
-                case SC.COMPASS:
-                    break;
-                case SC.GYRO:
-                case SC.ACCELEROMETER:
-                    nlIndent();
-                    this.sb.append("MeGyro myGyro" + usedSensor.getPort() + "(" + usedSensor.getPort() + ");");
-                    break;
-                case SC.SOUND:
-                    nlIndent();
-                    this.sb.append("MeSoundSensor _meSoundSensor" + usedSensor.getPort() + "(" + usedSensor.getPort() + ");");
-                    break;
                 case SC.JOYSTICK:
                     nlIndent();
                     this.sb.append("MeJoystick _meJoystick" + usedSensor.getPort() + "(" + usedSensor.getPort() + ");");
-                    break;
-                case SC.FLAMESENSOR:
-                    nlIndent();
-                    this.sb.append("MeFlameSensor _meFlameSensor" + usedSensor.getPort() + "(" + usedSensor.getPort() + ");");
-                    break;
-                case SC.VOLTAGE:
-                    nlIndent();
-                    this.sb.append("MePotentiometer _mePotentiometer" + usedSensor.getPort() + "(" + usedSensor.getPort() + ");");
                     break;
                 case SC.TIMER:
                     break;
@@ -647,14 +581,6 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
                     throw new DbcException("Actor is not supported! " + usedActor.getType());
             }
         }
-    }
-
-    @Override
-    public Void visitVoltageSensor(VoltageSensor<Void> voltageSensor) {
-        //RatedVoltage: 5V
-        //Signal type: Analog (range from 0 to 970)
-        this.sb.append("_mePotentiometer" + voltageSensor.getPort() + ".read()*5/970");
-        return null;
     }
 
     @Override
