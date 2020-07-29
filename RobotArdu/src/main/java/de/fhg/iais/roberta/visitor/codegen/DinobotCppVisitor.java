@@ -146,6 +146,10 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
             this.sb.append("_dBot.Backward("); 
         }
         driveAction.getParam().getSpeed().accept(this);
+        if ( duration != null ) {
+            this.sb.append(", ");
+            duration.getValue().accept(this);
+        }
         // if (driveAction.getParam.getSpeed() != null) { // Im a bit confused here as to how to get the speed and angle values hence I just copied the code and assumed that getParam has a getAngle method
         //     // I tried looking at other files for this info but couldnt find it (the driveAction class/type)
         //     this.sb.append(driveAction.getParam.getSpeed());
@@ -328,14 +332,6 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     private void generateActors() {
         for ( final UsedActor usedActor : this.getBean(UsedHardwareBean.class).getUsedActors() ) {
             switch ( usedActor.getType() ) {
-                case SC.LED_ON_BOARD:
-                    nlIndent();
-                    this.sb.append("MeRGBLed _meRgbLed(7, 2);");
-                    break;
-                case SC.GEARED_MOTOR:
-                    nlIndent();
-                    this.sb.append("MeDCMotor _medcmotor" + usedActor.getPort() + "(M" + usedActor.getPort() + ");");
-                    break;
                 case SC.DIFFERENTIAL_DRIVE:
                     nlIndent();
                     this.sb
