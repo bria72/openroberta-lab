@@ -610,6 +610,7 @@ Blockly.Msg.MENU_CHECK = "check";
 Blockly.Msg.MENU_CODE_DOWNLOAD_TOOLTIP = "Download the source code of your program on the computer";
 Blockly.Msg.MENU_CODE_REFRESH_TOOLTIP = "Refresh the source code, if you have changed the NEPO Blocks.";
 Blockly.Msg.MENU_CONNECT = "connect ...";
+Blockly.Msg.MENU_AUTOCONNECT = "auto connect ...";
 Blockly.Msg.MENU_CREATE_LINK = "create program link ...";
 Blockly.Msg.MENU_DELETE_USER = "delete user ...";
 Blockly.Msg.MENU_EDIT = "edit";

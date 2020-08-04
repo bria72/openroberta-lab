@@ -80,7 +80,12 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>de.fhg.iais.roberta</groupId>
+            <artifactId>OpenRobertaConnector</artifactId>
+            <version>1.3.0</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>de.fhg.iais.openroberta</groupId>
             <artifactId>RobotArdu</artifactId>

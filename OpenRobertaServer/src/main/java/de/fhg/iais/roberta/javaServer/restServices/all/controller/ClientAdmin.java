@@ -23,6 +23,8 @@ import de.fhg.iais.roberta.util.ServerProperties;
 import de.fhg.iais.roberta.util.Statistics;
 import de.fhg.iais.roberta.util.Util;
 import de.fhg.iais.roberta.util.UtilForREST;
+//import de.fhg.iais.roberta.main.*;
+import de.fhg.iais.roberta.main.OpenRobertaConnector;
 
 @Path("/admin")
 public class ClientAdmin {
@@ -68,6 +70,16 @@ public class ClientAdmin {
                 LOG.info("success: debug token is registered in the session");
                 Statistics.info("ConnectRobot", "success", true);
             } else {
+                //initiate openroberta connector object
+                //OpenRobertaConnector orc;
+                if(token.equals("AUTOCONN"))
+                {
+                    //Call openroberta connector
+                    LOG.info("Entered Auto connect");
+                    new OpenRobertaConnector().run();
+                    LOG.info("End Auto connect");
+                }
+                
                 Key tokenAgreement = this.brickCommunicator.aTokenAgreementWasSent(token, httpSessionState.getRobotName());
 
                 switch ( tokenAgreement ) {

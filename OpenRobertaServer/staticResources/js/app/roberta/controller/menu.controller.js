@@ -452,6 +452,28 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
                         $('#buttonCancelFirmwareUpdateAndRun').css('display', 'none');
                         ROBOT_C.showSetTokenModal();
                     }
+                } else if (domId === 'menuAutoConnect') {
+                    //console.log(GUISTATE_C.getIsAgent());
+                    //console.log(GUISTATE_C.getConnection());
+                    if (GUISTATE_C.getConnection() == 'arduinoAgent'
+                            || (GUISTATE_C.getConnection() == 'arduinoAgentOrToken' && GUISTATE_C.getIsAgent() == true)) {
+                        var ports = SOCKET_C.getPortList();
+                        var robots = SOCKET_C.getRobotList();
+                        $('#singleModalListInput').empty();
+                        i = 0;
+                        ports.forEach(function(port) {
+                            $('#singleModalListInput').append("<option value=\"" + port + "\" selected>" + robots[i] + " " + port + "</option>");
+                            i++;
+                        });
+                        ROBOT_C.showListModal();
+                    } else if (GUISTATE_C.getConnection() == 'webview') {
+                        ROBOT_C.showScanModal();
+                    } else {
+                        $('#buttonCancelFirmwareUpdate').css('display', 'inline');
+                        $('#buttonCancelFirmwareUpdateAndRun').css('display', 'none');
+                        //ROBOT_C.showSetTokenModal();
+                        
+                    }
                 } else if (domId === 'menuRobotInfo') {
                     ROBOT_C.showRobotInfo();
                 } else if (domId === 'menuWlan') {

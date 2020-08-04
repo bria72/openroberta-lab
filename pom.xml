@@ -48,6 +48,7 @@
     </properties>
 
     <modules>
+        <module>OpenRobertaConnector</module>
         <module>OpenRobertaRobot</module>
         <module>RobotEV3</module>
         <module>RobotNXT</module>
@@ -89,6 +90,11 @@
     </pluginRepositories>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>de.fhg.iais.roberta</groupId>
+                <artifactId>OpenRobertaConnector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>de.fhg.iais.openroberta</groupId>
                 <artifactId>OpenRobertaServer</artifactId>

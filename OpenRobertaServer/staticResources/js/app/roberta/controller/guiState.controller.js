@@ -171,6 +171,8 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
             $('#iconDisplayLogin').addClass('error');
         }
 
+
+
         connectionType = getConnection();
         switch (getConnection()) {
         case GUISTATE.gui.connectionType.AGENTORTOKEN:
@@ -280,6 +282,10 @@ define([ 'exports', 'util', 'log', 'message', 'guiState.model', 'progHelp.contro
         $('#head-navi-icon-robot').removeClass('typcn-' + GUISTATE.gui.robotGroup);
         $('#head-navi-icon-robot').addClass('typcn-' + robotGroup);
 
+        if(robot == "dinobot")
+        {
+            $('#menuAutoConnect').parent().removeClass('disabled');
+        }
         checkSim();
         if (!opt_init) {
             setProgramSaved(true);
