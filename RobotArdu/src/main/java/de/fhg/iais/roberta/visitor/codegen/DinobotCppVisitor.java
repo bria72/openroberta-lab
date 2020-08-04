@@ -139,13 +139,15 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     @Override
     public Void visitDriveAction(DriveAction<Void> driveAction) {
         final MotorDuration<Void> duration = driveAction.getParam().getDuration();
-        
-        if (driveAction.getDirection() == DriveDirection.FOREWARD) { // where do we get these methods from, i.e which file has the info that for eg driveAction has methods getDirection,etc as I am unsure if the method for getAngle is correct
-            this.sb.append("_dBot.Forward("); 
-        } else {
-            this.sb.append("_dBot.Backward("); 
-        }
+        this.sb.append("_dBot.drive(");
         driveAction.getParam().getSpeed().accept(this);
+        this.sb.append(", ");
+        if (driveAction.getDirection() == DriveDirection.FOREWARD) { // where do we get these methods from, i.e which file has the info that for eg driveAction has methods getDirection,etc as I am unsure if the method for getAngle is correct
+            this.sb.append("1"); 
+        } else {
+            this.sb.append("0"); 
+        }
+        
         if ( duration != null ) {
             this.sb.append(", ");
             duration.getValue().accept(this);
