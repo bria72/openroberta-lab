@@ -311,15 +311,11 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         LinkedHashSet<Integer> usedInfraredPort = new LinkedHashSet<>();
         for ( final UsedSensor usedSensor : this.getBean(UsedHardwareBean.class).getUsedSensors() ) {
             switch ( usedSensor.getType() ) {
-                case SC.BUTTON:
-                    nlIndent();
-                    this.sb.append("pinMode(7, INPUT);");
-                    break;
                 case SC.INFRARED:
                     int port = Integer.parseInt(usedSensor.getPort());
                     if ( !usedInfraredPort.contains(port) ) {
                         nlIndent();
-                        this.sb.append("MeLineFollower __meLineFollower" + usedSensor.getPort() + "(PORT_" + usedSensor.getPort() + ");");
+                        this.sb.append("MeDrive __meDrive" + usedSensor.getPort() + "(PORT_" + usedSensor.getPort() + ");");
                     }
                     usedInfraredPort.add(port);
                     break;
@@ -343,10 +339,6 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
                                 // + ", M"
                                 // + this.configuration.getFirstMotorPort(SC.RIGHT)
                                 // + ");");
-                    break;
-                case SC.IR_TRANSMITTER:
-                    nlIndent();
-                    this.sb.append("MeIR _meIr;");
                     break;
                 default:
                     throw new DbcException("Actor is not supported! " + usedActor.getType());
