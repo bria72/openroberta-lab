@@ -1,7 +1,7 @@
-define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socket.controller', 'user.controller', 'user.model', 'guiState.controller',
+define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socket.controller', 'user.controller', 'user.model', 'userGroup.controller' ,'guiState.controller',
         'program.controller', 'program.model', 'multSim.controller', 'progRun.controller', 'configuration.controller', 'import.controller', 'enjoyHint',
-        'tour.controller', 'simulation.simulation', 'progList.model', 'jquery', 'blocks', 'slick' ], function(exports, LOG, UTIL, MSG, COMM, ROBOT_C, SOCKET_C,
-        USER_C, USER, GUISTATE_C, PROGRAM_C, PROGRAM_M, MULT_SIM, RUN_C, CONFIGURATION_C, IMPORT_C, EnjoyHint, TOUR_C, SIM, PROGLIST, $, Blockly) {
+        'tour.controller', 'simulation.simulation', 'progList.model', 'jquery', 'blockly', 'slick' ], function(exports, LOG, UTIL, MSG, COMM, ROBOT_C, SOCKET_C,
+        USER_C, USER, USERGROUP_C, GUISTATE_C, PROGRAM_C, PROGRAM_M, MULT_SIM, RUN_C, CONFIGURATION_C, IMPORT_C, EnjoyHint, TOUR_C, SIM, PROGLIST, $, Blockly) {
 
     var n = 0;
 
@@ -45,6 +45,9 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
         } else if (target[0] === "#gallery") {
             GUISTATE_C.setStartWithoutPopup();
             $('#tabGalleryList').click();
+        } else if (target[0] === "#tutorial") {
+            GUISTATE_C.setStartWithoutPopup();
+            $('#tabTutorialList').click();
         } else if (target[0] === "#loadSystem" && target.length >= 2) {
             GUISTATE_C.setStartWithoutPopup();
             ROBOT_C.switchRobot(target[1], true);
@@ -77,7 +80,6 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
             }, 1000);
         }
         pingServer();
-        LOG.info('init menu view');
 
         handleQuery();
         cleanUri();
@@ -336,6 +338,35 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
         $('#simButtonsHead').onWrap('click', '', function(event) {
             $('#navbarCollapse').collapse('hide');
         });
+        if (GUISTATE_C.isPublicServerVersion()) {
+            var feedbackButton = '<div href="#" id="feedbackButton" class="rightMenuButton" rel="tooltip" data-original-title="" title="">'
+                    +'<span id="" class="feedbackButton typcn typcn-feedback"></span>'
+                    +'</div>'
+            $("#rightMenuDiv").append(feedbackButton);
+            window.onmessage = function(msg) {
+	            if (msg.data ==="closeFeedback") {		             
+                    $('#feedbackIframe').one('load', function () {
+                        setTimeout(function() { 
+	                        $("#feedbackIframe").attr("src" ,"about:blank");
+	                        $('#feedbackModal').modal("hide");
+                        }, 1000);
+                    });
+	            } else if (msg.data.indexOf("feedbackHeight") >= 0) {
+		            var height = msg.data.split(":")[1]||400;
+                    $('#feedbackIframe').height(height);
+	            }
+            };                  
+            $('#feedbackButton').onWrap('click', '', function(event) {
+                $('#feedbackModal').on('show.bs.modal', function () {
+	                if (GUISTATE_C.getLanguage().toLowerCase() === "de") {
+	                    $("#feedbackIframe").attr("src" ,"https://www.roberta-home.de/lab/feedback/");
+                    } else {
+	                    $("#feedbackIframe").attr("src" ,"https://www.roberta-home.de/en/lab/feedback/");
+                    }
+                });
+                $('#feedbackModal').modal({show:true});
+            });
+        }
 
         // EDIT Menu
         $('#head-navigation-program-edit').onWrap('click', '.dropdown-menu li:not(.disabled) a', function(event) {
@@ -479,8 +510,14 @@ define([ 'exports', 'log', 'util', 'message', 'comm', 'robot.controller', 'socke
             case 'menuLogin':
                 USER_C.showLoginForm();
                 break;
+            case 'menuUserGroupLogin':	
+                USER_C.showUserGroupLoginForm();	
+                break;
             case 'menuLogout':
                 USER_C.logout();
+                break;
+            case 'menuGroupPanel':	
+                USERGROUP_C.showPanel();	
                 break;
             case 'menuChangeUser':
                 USER_C.showUserDataForm();

@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Charsets;
 
 import de.fhg.iais.roberta.bean.CompilerSetupBean;
-import de.fhg.iais.roberta.codegen.AbstractCompilerWorkflow;
 import de.fhg.iais.roberta.components.Project;
 import de.fhg.iais.roberta.util.Key;
 import de.fhg.iais.roberta.util.Pair;
@@ -33,7 +32,8 @@ public class ArduinoCompilerWorker implements IWorker {
         String tempDir = compilerWorkflowBean.getTempDir();
         String programName = project.getProgramName();
         String token = project.getToken();
-        Util.storeGeneratedProgram(tempDir, project.getSourceCode().toString(), token, programName, "." + project.getSourceCodeFileExtension());
+        final String crosscompilerSource = project.getSourceCode().toString();
+        Util.storeGeneratedProgram(tempDir, crosscompilerSource, token, programName, "." + project.getSourceCodeFileExtension());
         String scriptName = compilerResourcesDir + "arduino-resources/build_project.sh";
 
         String boardVariant = "";
@@ -118,16 +118,16 @@ public class ArduinoCompilerWorker implements IWorker {
                 project.getRobot(),
                 arduinoArch
             };
-        Pair<Boolean, String> result = AbstractCompilerWorkflow.runCrossCompiler(executableWithParameters);
+        Pair<Boolean, String> result = Util.runCrossCompiler(executableWithParameters, crosscompilerSource);
         Key resultKey = result.getFirst() ? Key.COMPILERWORKFLOW_SUCCESS : Key.COMPILERWORKFLOW_ERROR_PROGRAM_COMPILE_FAILED;
         if ( result.getFirst() ) {
             String base64EncodedHex = null;
             switch ( project.getBinaryFileExtension() ) {
                 case "hex":
-                    base64EncodedHex = AbstractCompilerWorkflow.getBase64EncodedHex(targetDir + programName + "." + project.getBinaryFileExtension());
+                    base64EncodedHex = Util.getBase64EncodedHex(targetDir + programName + "." + project.getBinaryFileExtension());
                     break;
                 case "bin":
-                    base64EncodedHex = AbstractCompilerWorkflow.getBase64EncodedBinary(targetDir + programName + "." + project.getBinaryFileExtension());
+                    base64EncodedHex = Util.getBase64EncodedBinary(targetDir + programName + "." + project.getBinaryFileExtension());
                     break;
                 case "zip":
                     // as we currently only support sending a single file to robots and esp32 needs two files, they are zipped and send the zip is sent to the Connector

@@ -1,6 +1,6 @@
 package de.fhg.iais.roberta.visitor.collect;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.common.collect.ClassToInstanceMap;
 
@@ -37,7 +37,7 @@ import de.fhg.iais.roberta.visitor.hardware.IDinobotVisitor;
  * @author kcvejoski
  */
 public final class DinobotUsedHardwareCollectorVisitor extends AbstractUsedHardwareCollectorVisitor implements IDinobotVisitor<Void> {
-    public DinobotUsedHardwareCollectorVisitor(ArrayList<ArrayList<Phrase<Void>>> phrasesSet, ConfigurationAst configuration, ClassToInstanceMap<IProjectBean.IBuilder<?>> beanBuilders) {
+    public DinobotUsedHardwareCollectorVisitor(List<List<Phrase<Void>>> phrasesSet, ConfigurationAst configuration, ClassToInstanceMap<IProjectBean.IBuilder<?>> beanBuilders) {
         super(configuration, beanBuilders);
     }
 

@@ -66,9 +66,19 @@ public interface IRobotFactory {
 
     String getConfigurationType();
 
-    String getSensorPrefix();
+    /**
+     * Returns the sensor prefix if the robot has on an old configuration, null otherwise.
+     * 
+     * @return the sensor prefix, may be null
+     */
+    String optSensorPrefix();
 
-    String getTopBlockOfOldConfiguration();
+    /**
+     * Returns the top block if the robot has on an old configuration, null otherwise.
+     * 
+     * @return the top block, may be null
+     */
+    String optTopBlockOfOldConfiguration();
 
     String getGroup();
 
@@ -96,4 +106,6 @@ public interface IRobotFactory {
      * @return unmodifiable string set of workflows
      */
     Set<String> getWorkflows();
+
+    boolean hasWorkflow(String workflow);
 }

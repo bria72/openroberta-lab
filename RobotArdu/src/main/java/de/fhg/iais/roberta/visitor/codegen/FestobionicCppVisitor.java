@@ -1,6 +1,5 @@
 package de.fhg.iais.roberta.visitor.codegen;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -44,10 +43,7 @@ public final class FestobionicCppVisitor extends AbstractCommonArduinoCppVisitor
      *
      * @param phrases to generate the code from
      */
-    public FestobionicCppVisitor(
-        List<ArrayList<Phrase<Void>>> phrases,
-        ConfigurationAst brickConfiguration,
-        ClassToInstanceMap<IProjectBean> beans) {
+    public FestobionicCppVisitor(List<List<Phrase<Void>>> phrases, ConfigurationAst brickConfiguration, ClassToInstanceMap<IProjectBean> beans) {
         super(phrases, brickConfiguration, beans);
     }
 
@@ -75,10 +71,7 @@ public final class FestobionicCppVisitor extends AbstractCommonArduinoCppVisitor
         mainTask.getVariables().accept(this);
         nlIndent();
         generateConfigurationVariables();
-        if ( this.getBean(UsedHardwareBean.class).isSensorUsed(SC.TIMER) ) {
-            this.sb.append("unsigned long __time = millis();");
-            nlIndent();
-        }
+        generateTimerVariables();
         long numberConf =
             this.programPhrases
                 .stream()
@@ -94,18 +87,24 @@ public final class FestobionicCppVisitor extends AbstractCommonArduinoCppVisitor
         this.sb.append("void setup()");
         nlIndent();
         this.sb.append("{");
+
         incrIndentation();
+
         nlIndent();
         if ( this.getBean(UsedHardwareBean.class).isActorUsed(SC.SERIAL) ) {
             this.sb.append("Serial.begin(9600); ");
             nlIndent();
         }
         generateConfigurationSetup();
+
         generateUsedVars();
         this.sb.delete(this.sb.lastIndexOf("\n"), this.sb.length());
+
         decrIndentation();
+
         nlIndent();
         this.sb.append("}");
+
         nlIndent();
         return null;
     }
