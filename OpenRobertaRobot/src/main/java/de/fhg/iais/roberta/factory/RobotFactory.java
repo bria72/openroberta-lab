@@ -168,24 +168,14 @@ public class RobotFactory implements IRobotFactory {
     }
 
     @Override
-    public final String getSensorPrefix() {
+    public final String optSensorPrefix() {
         String configurationType = this.pluginProperties.getStringProperty("robot.configuration.type");
-        if ( configurationType == null || configurationType.equals("new") || !configurationType.startsWith("old-") ) {
-            throw new DbcException("no or invalid property robot.configuration.type");
-        } else {
-            return configurationType.substring(4);
-        }
+        return configurationType.substring(4);
     }
 
     @Override
-    public final String getTopBlockOfOldConfiguration() {
-        String topLevelBlock = this.pluginProperties.getStringProperty("robot.configuration.old.toplevelblock");
-        if ( topLevelBlock == null ) {
-            throw new DbcException("no property robot.configuration.old.toplevelblock");
-        } else {
-            return topLevelBlock;
-        }
-
+    public final String optTopBlockOfOldConfiguration() {
+        return this.pluginProperties.getStringProperty("robot.configuration.old.toplevelblock");
     }
 
     @Override
@@ -256,5 +246,10 @@ public class RobotFactory implements IRobotFactory {
     @Override
     public Set<String> getWorkflows() {
         return Collections.unmodifiableSet(this.workflows.keySet());
+    }
+
+    @Override
+    public boolean hasWorkflow(String workflow) {
+        return this.workflows.get(workflow) != null;
     }
 }

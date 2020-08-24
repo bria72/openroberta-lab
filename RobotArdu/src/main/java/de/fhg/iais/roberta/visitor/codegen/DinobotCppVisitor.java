@@ -53,7 +53,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
      * @param brickConfiguration hardware configuration of the brick
      * @param phrases to generate the code from
      */
-    public DinobotCppVisitor(List<ArrayList<Phrase<Void>>> phrases, ConfigurationAst brickConfiguration, ClassToInstanceMap<IProjectBean> beans) {
+    public DinobotCppVisitor(List<List<Phrase<Void>>> phrases, ConfigurationAst brickConfiguration, ClassToInstanceMap<IProjectBean> beans) {
         super(phrases, brickConfiguration, beans);
     }
     
