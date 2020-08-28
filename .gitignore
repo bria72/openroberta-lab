@@ -19,3 +19,4 @@ OpenRobertaServer/db-*
 **/*.py~
 **/*.csv
 dbIptoCountry/
+OpenRobertaConnector/
