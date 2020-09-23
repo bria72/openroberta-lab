@@ -1,5 +1,6 @@
 <toolbox_set id="toolbox" style="display: none">
   <category name="TOOLBOX_ACTION" svg="true">
+    <block type="move_neck"></block>
     <block type="robActions_motorDiff_on_for">
       <value name="POWER">
         <block type="math_number">
@@ -87,18 +88,6 @@
       <value name="WAIT">
         <block type="math_number">
           <field name="NUM">500</field>
-        </block>
-      </value>
-    </block>
-    <block type="robControls_wait_for">
-      <value name="WAIT0">
-        <block type="logic_compare">
-          <value name="A">
-            <block type="robSensors_getSample_ardu"/>
-          </value>
-          <value name="B">
-            <block type="logic_boolean"/>
-          </value>
         </block>
       </value>
     </block>

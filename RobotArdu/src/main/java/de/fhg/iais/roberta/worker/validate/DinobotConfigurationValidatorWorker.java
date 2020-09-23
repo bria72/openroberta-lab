@@ -1,13 +1,17 @@
 package de.fhg.iais.roberta.worker.validate;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.google.common.collect.ClassToInstanceMap;
 
-public class DinobotConfigurationValidatorWorker extends ArduinoConfigurationValidatorWorker {
-    public DinobotConfigurationValidatorWorker() {
-        super(
-            Stream
-                .of("LED_BUILTIN")
-                .collect(Collectors.toList()));
+import de.fhg.iais.roberta.bean.IProjectBean;
+import de.fhg.iais.roberta.components.Project;
+import de.fhg.iais.roberta.visitor.validate.AbstractBrickValidatorVisitor;
+import de.fhg.iais.roberta.visitor.validate.DinobotBrickValidatorVisitor;
+import de.fhg.iais.roberta.worker.AbstractValidatorWorker;
+
+public class DinobotConfigurationValidatorWorker extends AbstractValidatorWorker {
+    
+    @Override
+    protected AbstractBrickValidatorVisitor getVisitor(Project project, ClassToInstanceMap<IProjectBean.IBuilder<?>> beanBuilders) {
+        return new DinobotBrickValidatorVisitor(project.getConfigurationAst(), beanBuilders);
     }
 }

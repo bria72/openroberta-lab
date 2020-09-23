@@ -26,6 +26,7 @@ import de.fhg.iais.roberta.syntax.action.motor.differential.MotorDriveStopAction
 import de.fhg.iais.roberta.syntax.action.motor.differential.TurnAction;
 import de.fhg.iais.roberta.syntax.action.serial.SerialWriteAction;
 import de.fhg.iais.roberta.syntax.action.sound.VolumeAction;
+import de.fhg.iais.roberta.syntax.actors.arduino.dinobot.MoveNeckAction;
 import de.fhg.iais.roberta.syntax.lang.blocksequence.MainTask;
 import de.fhg.iais.roberta.syntax.lang.expr.ColorConst;
 import de.fhg.iais.roberta.syntax.lang.expr.EmptyExpr;
@@ -56,6 +57,8 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
     public DinobotCppVisitor(List<List<Phrase<Void>>> phrases, ConfigurationAst brickConfiguration, ClassToInstanceMap<IProjectBean> beans) {
         super(phrases, brickConfiguration, beans);
     }
+
+
 
     @Override
     public Void visitEmptyExpr(EmptyExpr<Void> emptyExpr) {
@@ -135,6 +138,13 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         }
     }
 
+    @Override
+    public Void visitMoveNeckAction(MoveNeckAction<Void> moveNeckAction){
+        this.sb.append("dummy_code(");
+        this.sb.append(moveNeckAction.getAngle());
+        this.sb.append(");");
+        return null;
+    }
 
     @Override
     public Void visitDriveAction(DriveAction<Void> driveAction) {

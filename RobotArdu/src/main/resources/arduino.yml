@@ -102,6 +102,11 @@ block:
       category: FUNCTION
       implementor: de.fhg.iais.roberta.syntax.functions.arduino.LEDMatrixImageInvertFunction
       type: [mBotImage_invert]
+  # DINOBOT
+  MOVE_NECK :
+      category: ACTOR
+      implementor: de.fhg.iais.roberta.syntax.actors.arduino.dinobot.MoveNeckAction
+      type: [move_neck]
 
 configuration:
   SENSEBOX: [robBrick_senseBox-Brick]

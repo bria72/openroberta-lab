@@ -16,79 +16,18 @@ import de.fhg.iais.roberta.syntax.action.sound.PlayFileAction;
 import de.fhg.iais.roberta.syntax.action.sound.PlayNoteAction;
 import de.fhg.iais.roberta.syntax.action.sound.ToneAction;
 import de.fhg.iais.roberta.syntax.action.sound.VolumeAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.LEDMatrixImageAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.LEDMatrixSetBrightnessAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.LEDMatrixTextAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.mbot.ReceiveIRAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.mbot.SendIRAction;
-import de.fhg.iais.roberta.syntax.expressions.arduino.LEDMatrixImage;
-import de.fhg.iais.roberta.syntax.functions.arduino.LEDMatrixImageInvertFunction;
-import de.fhg.iais.roberta.syntax.functions.arduino.LEDMatrixImageShiftFunction;
-import de.fhg.iais.roberta.syntax.sensors.arduino.mbot.FlameSensor;
-import de.fhg.iais.roberta.syntax.sensors.arduino.mbot.Joystick;
+import de.fhg.iais.roberta.syntax.actors.arduino.dinobot.MoveNeckAction;
 import de.fhg.iais.roberta.visitor.hardware.IDinobotVisitor;
 
 /**
- * Collector for the MBot.
+ * Collector for the DinoBot.
  * Adds the blocks missing from the defaults of {@link ICollectorVisitor}.
  * Defines the specific parent implementation to use (the one of the collector) due to unrelated defaults.
  */
 public interface IDinobotCollectorVisitor extends ICollectorVisitor, IDinobotVisitor<Void> {
 
     @Override
-    default Void visitJoystick(Joystick<Void> joystick) {
-        return null;
-    }
-
-    @Override
-    default Void visitFlameSensor(FlameSensor<Void> flameSensor) {
-        return null;
-    }
-
-    @Override
-    default Void visitSendIRAction(SendIRAction<Void> sendIRAction) {
-        sendIRAction.getMessage().accept(this);
-        return null;
-    }
-
-    @Override
-    default Void visitReceiveIRAction(ReceiveIRAction<Void> receiveIRAction) {
-        return null;
-    }
-
-    @Override
-    default Void visitLEDMatrixImageAction(LEDMatrixImageAction<Void> ledMatrixImageAction) {
-        ledMatrixImageAction.getValuesToDisplay().accept(this);
-        return null;
-    }
-
-    @Override
-    default Void visitLEDMatrixTextAction(LEDMatrixTextAction<Void> ledMatrixTextAction) {
-        ledMatrixTextAction.getMsg().accept(this);
-        return null;
-    }
-
-    @Override
-    default Void visitLEDMatrixImage(LEDMatrixImage<Void> ledMatrixImage) {
-        return null;
-    }
-
-    @Override
-    default Void visitLEDMatrixImageShiftFunction(LEDMatrixImageShiftFunction<Void> ledMatrixImageShiftFunction) {
-        ledMatrixImageShiftFunction.getImage().accept(this);
-        ledMatrixImageShiftFunction.getPositions().accept(this);
-        return null;
-    }
-
-    @Override
-    default Void visitLEDMatrixImageInvertFunction(LEDMatrixImageInvertFunction<Void> ledMatrixImageInverFunction) {
-        ledMatrixImageInverFunction.getImage().accept(this);
-        return null;
-    }
-
-    @Override
-    default Void visitLEDMatrixSetBrightnessAction(LEDMatrixSetBrightnessAction<Void> ledMatrixSetBrightnessAction) {
-        ledMatrixSetBrightnessAction.getBrightness().accept(this);
+    default Void visitMoveNeckAction(MoveNeckAction<Void> moveNeckAction) {
         return null;
     }
 

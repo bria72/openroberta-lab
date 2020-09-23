@@ -19,16 +19,7 @@ import de.fhg.iais.roberta.syntax.action.motor.differential.TurnAction;
 import de.fhg.iais.roberta.syntax.action.serial.SerialWriteAction;
 import de.fhg.iais.roberta.syntax.action.sound.PlayNoteAction;
 import de.fhg.iais.roberta.syntax.action.sound.ToneAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.LEDMatrixImageAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.LEDMatrixSetBrightnessAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.LEDMatrixTextAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.mbot.ReceiveIRAction;
-import de.fhg.iais.roberta.syntax.actors.arduino.mbot.SendIRAction;
-import de.fhg.iais.roberta.syntax.expressions.arduino.LEDMatrixImage;
-import de.fhg.iais.roberta.syntax.functions.arduino.LEDMatrixImageInvertFunction;
-import de.fhg.iais.roberta.syntax.functions.arduino.LEDMatrixImageShiftFunction;
-import de.fhg.iais.roberta.syntax.sensors.arduino.mbot.FlameSensor;
-import de.fhg.iais.roberta.syntax.sensors.arduino.mbot.Joystick;
+import de.fhg.iais.roberta.syntax.actors.arduino.dinobot.MoveNeckAction;
 import de.fhg.iais.roberta.visitor.hardware.IDinobotVisitor;
 
 /**
@@ -39,18 +30,6 @@ import de.fhg.iais.roberta.visitor.hardware.IDinobotVisitor;
 public final class DinobotUsedHardwareCollectorVisitor extends AbstractUsedHardwareCollectorVisitor implements IDinobotVisitor<Void> {
     public DinobotUsedHardwareCollectorVisitor(List<List<Phrase<Void>>> phrasesSet, ConfigurationAst configuration, ClassToInstanceMap<IProjectBean.IBuilder<?>> beanBuilders) {
         super(configuration, beanBuilders);
-    }
-
-    @Override
-    public Void visitJoystick(Joystick<Void> joystick) {
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedSensor(new UsedSensor(joystick.getPort(), SC.JOYSTICK, SC.DEFAULT));
-        return null;
-    }
-
-    @Override
-    public Void visitFlameSensor(FlameSensor<Void> flameSensor) {
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedSensor(new UsedSensor(flameSensor.getPort(), SC.FLAMESENSOR, SC.DEFAULT));
-        return null;
     }
 
     @Override
@@ -108,64 +87,13 @@ public final class DinobotUsedHardwareCollectorVisitor extends AbstractUsedHardw
     }
 
     @Override
-    public Void visitLightAction(LightAction<Void> lightAction) {
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedActor(new UsedActor("0", SC.LED_ON_BOARD));
-        return null;
-    }
-
-    @Override
     public Void visitSerialWriteAction(SerialWriteAction<Void> serialWriteAction) {
         serialWriteAction.getValue().accept(this);
         return null;
     }
 
     @Override
-    public Void visitSendIRAction(SendIRAction<Void> sendIRAction) {
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedActor(new UsedActor("INTERNAL", SC.IR_TRANSMITTER));
-        return null;
-    }
-
-    @Override
-    public Void visitReceiveIRAction(ReceiveIRAction<Void> receiveIRAction) {
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedActor(new UsedActor("INTERNAL", SC.IR_TRANSMITTER));
-        return null;
-    }
-
-    @Override
-    public Void visitLEDMatrixImageAction(LEDMatrixImageAction<Void> ledMatrixImageAction) {
-        ledMatrixImageAction.getValuesToDisplay().accept(this);
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedActor(new UsedActor(ledMatrixImageAction.getPort(), SC.LED_MATRIX));
-        return null;
-    }
-
-    @Override
-    public Void visitLEDMatrixTextAction(LEDMatrixTextAction<Void> ledMatrixTextAction) {
-        ledMatrixTextAction.getMsg().accept(this);
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedActor(new UsedActor(ledMatrixTextAction.getPort(), SC.LED_MATRIX));
-        return null;
-    }
-
-    @Override
-    public Void visitLEDMatrixImageShiftFunction(LEDMatrixImageShiftFunction<Void> ledMatrixImageShiftFunction) {
-        ledMatrixImageShiftFunction.getImage().accept(this);
-        return null;
-    }
-
-    @Override
-    public Void visitLEDMatrixImageInvertFunction(LEDMatrixImageInvertFunction<Void> ledMatrixImageInverFunction) {
-        ledMatrixImageInverFunction.getImage().accept(this);
-        return null;
-    }
-
-    @Override
-    public Void visitLEDMatrixImage(LEDMatrixImage<Void> ledMatrixImage) {
-        this.getBuilder(UsedHardwareBean.Builder.class).addUsedIDImage(ledMatrixImage.getProperty().getBlocklyId(), ledMatrixImage.getImage());
-        return null;
-    }
-
-    @Override
-    public Void visitLEDMatrixSetBrightnessAction(LEDMatrixSetBrightnessAction<Void> ledMatrixSetBrightnessAction) {
-        ledMatrixSetBrightnessAction.getBrightness().accept(this);
+    public Void visitMoveNeckAction(MoveNeckAction <Void> moveNeckAction) {
         return null;
     }
 }
