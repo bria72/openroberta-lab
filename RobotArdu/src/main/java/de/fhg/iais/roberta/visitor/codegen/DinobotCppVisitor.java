@@ -140,7 +140,7 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
 
     @Override
     public Void visitMoveNeckAction(MoveNeckAction<Void> moveNeckAction){
-        this.sb.append("dummy_code(");
+        this.sb.append("_dBot.moveNeck(");
         this.sb.append(moveNeckAction.getAngle());
         this.sb.append(");");
         return null;
