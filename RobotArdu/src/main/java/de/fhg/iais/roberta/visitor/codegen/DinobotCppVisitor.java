@@ -195,7 +195,15 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         this.sb.append(");");
         return null;
     }
-
+    
+    //updated neckAction Method
+    @Override
+    public Void visitNeckAction(NeckAction<Void> neckAction) {
+        this.sb.append("_dbot.moveNeck(");
+        neckAction.getAngle().accept(this); // assuming neckAction obj and has method getAngle
+        this.sb.append(");");
+        return null
+    }
     @Override
     public Void visitTurnAction(TurnAction<Void> turnAction) {
         final MotorDuration<Void> duration = turnAction.getParam().getDuration();
