@@ -294,8 +294,6 @@ public final class DinobotCppVisitor extends AbstractCommonArduinoCppVisitor imp
         this.sb.append("#define ANALOG2PERCENT 0.0978");
         nlIndent();
         nlIndent();
-        this.sb.append("#include <MeMCore.h>");
-        nlIndent();
         this.sb.append("#include <DinoDrive.h>");
         nlIndent();
         this.sb.append("#include <NEPODefs.h>");
